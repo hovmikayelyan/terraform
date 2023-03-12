@@ -1,3 +1,7 @@
+#null resourse
+#local-exec
+
+
 provider "aws" {
   region = "eu-west-3"
 }
