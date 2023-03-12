@@ -1,6 +1,14 @@
-#ssm store
-#rds
+#-------------------------------------------------
+# My Terraform
 #
+# ssm store
+# rds
+# random string -> keepers
+#
+# Made by Hov Mikayelyan
+#-------------------------------------------------
+
+
 
 
 provider "aws" {

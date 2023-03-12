@@ -1,4 +1,10 @@
-#variables, seperate .tfvars file
+#-------------------------------------------------
+# My Terraform
+#
+# variables, seperate .tfvars file
+#
+# Made by Hov Mikayelyan
+#-------------------------------------------------
 
 
 provider "aws" {

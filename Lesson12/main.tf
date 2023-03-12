@@ -1,4 +1,10 @@
-#variables
+#-------------------------------------------------
+# My Terraform
+#
+# variables
+#
+# Made by Hov Mikayelyan
+#-------------------------------------------------
 
 
 provider "aws" {

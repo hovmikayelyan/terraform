@@ -1,4 +1,10 @@
-#locals
+#-------------------------------------------------
+# My Terraform
+#
+# locals
+#
+# Made by Hov Mikayelyan
+#-------------------------------------------------
 
 provider "aws" {
   region = var.region
