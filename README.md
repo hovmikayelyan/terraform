@@ -7,7 +7,8 @@ Course covering all the features of Terraform v0.12, v0.13, v0.14, v0.15 and lat
 Includes everything you need to pass HashiCorp Certified: Terraform Associate Exam and much more.
 
 #
-Links > > >
+Links
+#
 - Udemy > > >
 https://www.udemy.com/course/terraformcertified/
 - YouTube > > >
