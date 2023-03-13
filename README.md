@@ -10,7 +10,7 @@ Includes everything you need to pass HashiCorp Certified: Terraform Associate Ex
 Links > > >
 - Udemy > > >
 https://www.udemy.com/course/terraformcertified/
-- YouTube
+- YouTube > > >
 https://www.youtube.com/watch?v=R0CaxXhrfFE&list=PLg5SS_4L6LYujWDTYb-Zbofdl44Jxb2l8
 
 Thank You!
