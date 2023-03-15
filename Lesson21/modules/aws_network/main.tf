@@ -1,24 +1,12 @@
 #-------------------------------------------------
 # My Terraform
-#
-# save .tfstate in s3
-#
+# Provision:
+#   - VPC
+#   - Internet Gateway
+#   - XX Public Subnets
+#   - XX Private Subnets
 # Made by Hov Mikayelyan
 #-------------------------------------------------
-
-provider "aws" {
-  region = "eu-west-3"
-}
-
-terraform {
-  backend "s3" {
-    bucket = "hovs-terraform-project"        // Bucket where to SAVE Terraform State
-    key    = "dev/network/terraform.tfstate" // Object name in the bucket to SAVE Terraform State
-    region = "eu-west-3"                     // Region where bycket created
-  }
-}
-
-#----------------------------------------------------------
 
 data "aws_availability_zones" "available" {}
 
@@ -39,12 +27,22 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
+resource "aws_subnet" "private_subnets" {
+  count                   = length(var.private_subnet_cidrs)
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = element(var.private_subnet_cidrs, count.index)
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
+  map_public_ip_on_launch = false
+
+  tags = {
+    "Name" = "private-${count.index}"
+  }
+}
 
 resource "aws_subnet" "public_subnets" {
   count                   = length(var.public_subnet_cidrs)
   vpc_id                  = aws_vpc.main.id
   cidr_block              = element(var.public_subnet_cidrs, count.index) # OR -> var.public_subnet_cidrs[count.index]
-  # difference between element and taking by [index], is that if its an object, like map, you should use 'element()' cause maybe you don't know the index !!
   availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = true
   tags = {
