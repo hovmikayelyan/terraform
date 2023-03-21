@@ -15,4 +15,5 @@ terraform {
 provider "cloudflare" {
   email   = var.CF_USR
   api_key = var.CF_PWD
+  account_id = var.CF_ACC_ID
 }
