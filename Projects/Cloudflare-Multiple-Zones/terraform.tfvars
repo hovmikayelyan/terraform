@@ -4,9 +4,6 @@
 #
 #------------------------------
 
-region     = "eu-central-1"
-acm_region = "us-east-1"
-
 minify_css  = "on"
 minify_html = "on"
 minify_js   = "on"
