@@ -4,12 +4,20 @@
 #
 #------------------------------
 
-variable "CF_USR" {}
-variable "CF_PWD" {}
+variable "CF_USR" {
+  sensitive = true
+}
+variable "CF_PWD" {
+  sensitive = true
+}
 variable "CF_ACC_ID" {}
 
-variable "AWS_ACCESS_KEY_ID" {}
-variable "AWS_SECRET_ACCESS_KEY" {}
+variable "AWS_ACCESS_KEY_ID" {
+  sensitive = true
+}
+variable "AWS_SECRET_ACCESS_KEY" {
+  sensitive = true
+}
 
 variable "domains" {
   description = "Please Enter All domains to start the process"

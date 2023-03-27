@@ -4,8 +4,12 @@
 #
 #------------------------------
 
-variable "CF_USR" {}
-variable "CF_PWD" {}
+variable "CF_USR" {
+  sensitive = true
+}
+variable "CF_PWD" {
+  sensitive = true
+}
 variable "CF_ACC_ID" {}
 
 variable "domains" {
