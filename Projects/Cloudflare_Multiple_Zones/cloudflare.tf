@@ -56,7 +56,7 @@ resource "cloudflare_page_rule" "www" {
 
   actions {
     forwarding_url {
-      url         = "https://${element(local.domains, count.index)}"
+      url         = "https://${element(local.domains, count.index)}/$1"
       status_code = 301
     }
   }
@@ -65,7 +65,7 @@ resource "cloudflare_page_rule" "www" {
 resource "cloudflare_ruleset" "transform_modify_response_headers" {
   count       = length(local.domains)
   zone_id     = element(data.cloudflare_zones.all_zones, count.index).zones[0].id
-  name        = "TEST Transform Rule "
+  name        = "Transform Rule "
   description = ""
   kind        = "zone"
   phase       = "http_response_headers_transform"

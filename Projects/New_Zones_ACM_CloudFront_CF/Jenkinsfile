@@ -1,0 +1,55 @@
+/* Jenkins pipeline to run terraform file, provide variables from environment*/
+
+pipeline {
+    agent any
+    environment {
+        CLOUDFLARE  = credentials('CF_TOKEN')
+        prod = credentials('AWS_PRD') 
+        stg  = credentials('AWS_DEV') 
+    }
+    parameters {
+        choice(name: "selected_env", choices: [ "Staging", "Production"]) 
+        choice(name: "deploy_to", choices: ['Staging', 'Production']) 
+        text defaultValue: '', description: 'Please enter all domains(MIN: 2, MAX: 10) to start the process, P.S. please seperate with commas, WITHOUT ANY SPACES, TOGETHER - EXAMPLE: test.am,example1.com,example2.com', name: 'domains'
+        string defaultValue: '', description: 'Please Enter the AWS S3 Bucket Name for Origin', name: 'origin'
+    }
+    stages {
+        stage('Select') {
+            steps {
+                git url: 'https://yourgitrepo', branch: 'master', credentialsId: 'your_token'
+                script {
+                    switch(selected_env) {
+                          case "Prod":
+                            env.awspass = "${prod_PSW}"
+                            env.awsuser = "${prod_USR}"
+                            break
+                          case "Stg":
+                            env.awspass = "${stg_PSW}"
+                            env.awsuser = "${stg_USR}"
+                            break
+                    }
+
+                    def all_accounts = [
+                        "Staging": "xxxxxxxxxxxxxxx",
+                        "Production" : "xxxxxxxxxxxxxxx",
+                    ]
+                    env.acc_id = all_accounts.find{ it.key == deploy_to }?.value
+                }
+            }
+        }
+        stage('Creating') {
+            steps {
+                dir("git_dir") {
+                    sh '''#!/bin/bash
+                        rm ./terraform.tfstate
+                        terraform init 
+                        terraform apply -auto-approve \
+                        -var="CF_TOKEN=${CLOUDFLARE}" -var="CF_ACC_ID=${acc_id}" \
+                        -var="AWS_ACCESS_KEY_ID=${awsuser}" -var="AWS_SECRET_ACCESS_KEY=${awspass}" \
+                        -var="domains=${domains}" -var="bucket_name=${origin}"
+                    '''
+                }
+            }
+        }
+    }
+}

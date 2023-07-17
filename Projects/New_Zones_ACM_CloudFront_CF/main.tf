@@ -14,4 +14,13 @@
 
 locals {
   domains = split(",", var.domains)
+
+  acm_data = [
+    for cert in aws_acm_certificate.cert.domain_validation_options : {
+      name       = cert.resource_record_name
+      value      = cert.resource_record_value
+      type       = cert.resource_record_type
+      zone_index = index(cloudflare_zone.domains[*].zone, cert.domain_name)
+    }
+  ]
 }

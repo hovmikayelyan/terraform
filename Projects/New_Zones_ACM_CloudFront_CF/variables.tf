@@ -4,10 +4,8 @@
 #
 #------------------------------
 
-variable "CF_USR" {
-  sensitive = true
-}
-variable "CF_PWD" {
+
+variable "CF_TOKEN" {
   sensitive = true
 }
 variable "CF_ACC_ID" {}

@@ -56,7 +56,7 @@ resource "cloudflare_page_rule" "www" {
 
   actions {
     forwarding_url {
-      url         = "https://${element(local.domains, count.index)}"
+      url         = "https://${element(local.domains, count.index)}/$1"
       status_code = 301
     }
   }
@@ -65,7 +65,7 @@ resource "cloudflare_page_rule" "www" {
 resource "cloudflare_ruleset" "transform_modify_response_headers" {
   count       = length(local.domains)
   zone_id     = element(data.cloudflare_zones.all_zones, count.index).zones[0].id
-  name        = "TEST Transform Rule "
+  name        = "Transform Rule "
   description = ""
   kind        = "zone"
   phase       = "http_response_headers_transform"
@@ -102,12 +102,13 @@ resource "cloudflare_record" "www" {
 #=======================================================================
 
 resource "cloudflare_record" "acm_records" {
-  count   = length(local.domains)
-  zone_id = element(data.cloudflare_zones.all_zones, count.index).zones[0].id
-  name    = element(tolist(aws_acm_certificate.cert.domain_validation_options), count.index).resource_record_name
-  value   = element(tolist(aws_acm_certificate.cert.domain_validation_options), count.index).resource_record_value
-  type    = element(tolist(aws_acm_certificate.cert.domain_validation_options), count.index).resource_record_type
+  count   = length(local.acm_data)
+  zone_id = cloudflare_zone.domains[local.acm_data[count.index].zone_index].id
+  name    = local.acm_data[count.index].name
+  value   = local.acm_data[count.index].value
+  type    = local.acm_data[count.index].type
   ttl     = 0
+  proxied = false
 }
 
 resource "cloudflare_record" "cloudfront_records" {
@@ -117,4 +118,5 @@ resource "cloudflare_record" "cloudfront_records" {
   value   = aws_cloudfront_distribution.s3_distribution.domain_name
   type    = "CNAME"
   ttl     = 0
+  proxied = true
 }

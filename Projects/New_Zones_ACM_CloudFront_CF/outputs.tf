@@ -12,10 +12,6 @@ output "certificate" {
   value = aws_acm_certificate.cert.id
 }
 
-output "zones" {
-  value = data.cloudflare_zones.all_zones
-}
-
 output "caching_disabled_id" {
   value = data.aws_cloudfront_cache_policy.CachingDisabled.id
 }
@@ -28,6 +24,6 @@ output "name_servers" {
   value = cloudflare_zone.domains[*].name_servers
 }
 
-output "id" {
+output "zone_ids" {
   value = cloudflare_zone.domains[*].id
 }

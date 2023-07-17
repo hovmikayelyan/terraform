@@ -12,9 +12,9 @@ terraform {
     }
   }
 }
+
 provider "cloudflare" {
-  email   = var.CF_USR
-  api_key = var.CF_PWD
+  api_token = var.CF_TOKEN
   account_id = var.CF_ACC_ID
 }
 
